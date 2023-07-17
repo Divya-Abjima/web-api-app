@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DivyaUdayan\\Desktop\\.net demo program\\PracticeDemo\\WebApiAppdemo\\WebApiAppdemo.csproj": {}
+    "C:\\Users\\DivyaUdayan\\Desktop\\web api repo\\web-api-app\\WebApiAppdemo\\WebApiAppdemo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DivyaUdayan\\Desktop\\.net demo program\\PracticeDemo\\WebApiAppdemo\\WebApiAppdemo.csproj": {
+    "C:\\Users\\DivyaUdayan\\Desktop\\web api repo\\web-api-app\\WebApiAppdemo\\WebApiAppdemo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DivyaUdayan\\Desktop\\.net demo program\\PracticeDemo\\WebApiAppdemo\\WebApiAppdemo.csproj",
+        "projectUniqueName": "C:\\Users\\DivyaUdayan\\Desktop\\web api repo\\web-api-app\\WebApiAppdemo\\WebApiAppdemo.csproj",
         "projectName": "WebApiAppdemo",
-        "projectPath": "C:\\Users\\DivyaUdayan\\Desktop\\.net demo program\\PracticeDemo\\WebApiAppdemo\\WebApiAppdemo.csproj",
+        "projectPath": "C:\\Users\\DivyaUdayan\\Desktop\\web api repo\\web-api-app\\WebApiAppdemo\\WebApiAppdemo.csproj",
         "packagesPath": "C:\\Users\\DivyaUdayan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DivyaUdayan\\Desktop\\.net demo program\\PracticeDemo\\WebApiAppdemo\\obj\\",
+        "outputPath": "C:\\Users\\DivyaUdayan\\Desktop\\web api repo\\web-api-app\\WebApiAppdemo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DivyaUdayan\\AppData\\Roaming\\NuGet\\NuGet.Config",
