@@ -7,8 +7,8 @@
 
         public CloudMailService(IConfiguration configuration) 
         {
-            _mailto = configuration["mailSettings:mailToAddress"];
-            _mailftom = configuration["mailSettings:mailFromAddress"];
+            _mailto = configuration["mailSettings:mailToAddress"]!;
+            _mailftom = configuration["mailSettings:mailFromAddress"]!;
         }
         public void Send(string message, string title)
         {

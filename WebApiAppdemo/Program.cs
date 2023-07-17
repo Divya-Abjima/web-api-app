@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using WebApiAppdemo.DBContexts;
 using WebApiAppdemo.Services;
 
 namespace WebApiAppdemo
@@ -21,6 +23,10 @@ namespace WebApiAppdemo
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient<IMailService,LocalMailService>();
             builder.Services.AddSingleton<DinosaurRepository>();
+            builder.Services.AddDbContext<DinosaurDetailContext>(dbContextOptions =>
+            {
+                dbContextOptions.UseSqlServer("Server=localhost\\MSSQLSERVER01;Database=master;Trusted_Connection=True;TrustServerCertificate=True;");
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
