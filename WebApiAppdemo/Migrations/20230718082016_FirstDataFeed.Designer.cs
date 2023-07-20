@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiAppdemo.DBContexts;
 
@@ -11,9 +12,11 @@ using WebApiAppdemo.DBContexts;
 namespace WebApiAppdemo.Migrations
 {
     [DbContext(typeof(DinosaurDetailContext))]
-    partial class DinosaurDetailContextModelSnapshot : ModelSnapshot
+    [Migration("20230718082016_FirstDataFeed")]
+    partial class FirstDataFeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

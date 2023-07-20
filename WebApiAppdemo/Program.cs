@@ -24,9 +24,11 @@ namespace WebApiAppdemo
             builder.Services.AddTransient<IMailService,LocalMailService>();
             builder.Services.AddSingleton<DinosaurRepository>();
             builder.Services.AddDbContext<DinosaurDetailContext>(dbContextOptions =>
-            {
-                dbContextOptions.UseSqlServer("Server=localhost\\MSSQLSERVER01;Database=master;Trusted_Connection=True;TrustServerCertificate=True;");
-            });
+            
+                dbContextOptions.UseSqlServer(
+                    builder.Configuration["ConnectionStrings:DinosaurDBConnectionString"]));
+
+            builder.Services.AddScoped<IDinoaurDetailRepository, DinosaurDetailRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
