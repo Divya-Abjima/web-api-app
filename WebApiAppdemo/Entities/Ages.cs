@@ -10,7 +10,9 @@ namespace WebApiAppdemo.Entities
         public string Name { get; set; } = string.Empty;
         public string Age { get; set; } = string.Empty;
 
+        [ForeignKey("DinosaurId")]
         public Dinosaur? Dinosaur { get; set; }
+        public int DinosaurId { get; set; }
         public Ages(string name) 
         {
             name = Name;

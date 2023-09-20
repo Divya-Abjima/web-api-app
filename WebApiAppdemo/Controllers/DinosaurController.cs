@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
+using WebApiAppdemo.Entities;
 using WebApiAppdemo.Models;
 using WebApiAppdemo.Services;
 
@@ -8,59 +11,59 @@ namespace WebApiAppdemo.Controllers
 
     [ApiController]
     [Route("api/dinosaurs")]
+    [Authorize(Policy = "MustBeAdmin")]
     public class DinosaurController : ControllerBase
     {
         private readonly IMailService _mailService;
         private readonly DinosaurRepository _dinosaurRepo;
+        private readonly IDinoaurDetailRepository _dinosaurDetailRepository;
+        private readonly IMapper _mapper;
         public DinosaurController(
             IMailService mailService,
-            DinosaurRepository dinosaurRepo
+            DinosaurRepository dinosaurRepo,
+            IDinoaurDetailRepository dinosaurDetailRepository,
+             IMapper mapper
             ) 
         {
             _mailService = mailService ?? throw new ArgumentNullException(nameof(mailService));
             _dinosaurRepo = dinosaurRepo;
+            _dinosaurDetailRepository = dinosaurDetailRepository;
+            _mapper = mapper;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<DinosaurDto>> GetDinosaurs()
+        public async Task<ActionResult<IEnumerable<DinosaurDto>>> GetDinosaurs()
         {
-            return Ok(_dinosaurRepo.Dinosaurs);
-        }
+            var dinosaurs = await _dinosaurDetailRepository.GetDinosaursAsync();     
+            return Ok(_mapper.Map<IEnumerable<DinosaurDto>>(dinosaurs));
+        }   
 
         [HttpGet("{id}", Name = "GetDinosaurs")]
-        public ActionResult<DinosaurDto>  GetDinosaur(int id)
+        public async Task<IActionResult> GetDinosaur(int id, bool hasAges=true)
         {
-            var dinosaur = _dinosaurRepo.Dinosaurs.FirstOrDefault(d => d.Id == id);
+            var dinosaur = await _dinosaurDetailRepository.GetDinosaurAsync(id, hasAges);
 
             if(dinosaur == null)
             {
                 return NotFound();
             }
-            return Ok(dinosaur);
+            return Ok(_mapper.Map<DinosaurDto>(dinosaur));
         }
 
         [HttpPost()]
-        public ActionResult<DinosaurDto> CreateDinosaur(int id, [FromBody] DinosaurCreationDto dto)
+        public async Task<ActionResult<DinosaurDto>> CreateDinosaur(int id, [FromBody] DinosaurCreationDto dto)
         {
-            var dinosaur = _dinosaurRepo.Dinosaurs;
-            if(dinosaur==null)
-            {
-                return NotFound();
-            }
-            id = _dinosaurRepo.Dinosaurs.Max(d => d.Id);
-            var newDinosaur = new DinosaurDto()
-            {
-                Id = ++id,
-                Name = dto.Name,
-                Description = dto.Description,
-            };
-            dinosaur.Add(newDinosaur);
+            var newDinosaur = _mapper.Map<Entities.Dinosaur>(dto);
+            await _dinosaurDetailRepository.AddDinosaurAsync(id, newDinosaur);
+            await _dinosaurDetailRepository.SaveChangesAsync();
             _mailService.Send($"A new entry was added with id {id}", "Addition");
+            var newEntry = _mapper.Map<Models.DinosaurDto>(newDinosaur);
+
             return CreatedAtRoute("GetDinosaurs",
                 new
-                {
-                    id = newDinosaur.Id
+                { 
+                    id = newEntry.Id
                 },
-                newDinosaur);
+                newEntry);
         }
 
         [HttpPut("{id}")]

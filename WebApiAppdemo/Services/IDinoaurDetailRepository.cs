@@ -6,7 +6,10 @@ namespace WebApiAppdemo.Services
     {
         Task<IEnumerable<Dinosaur>> GetDinosaursAsync();
         Task<Dinosaur?> GetDinosaurAsync(int dinosaurId, bool hasAges);
-        Task<IEnumerable<Ages>> GetAgesAsync(int dinosaurId);
+        Task<IEnumerable<Dinosaur>> GetAgesAsync(int dinosaurId);
         Task<Ages> GetDinosaurAgeAsync(int dinosaurId, int ageId);
+        Task<bool> DinosaurExistsAsync(int dinosaurId);
+        Task AddDinosaurAsync(int Id, Dinosaur entry);
+        Task<bool> SaveChangesAsync();
     }
 }

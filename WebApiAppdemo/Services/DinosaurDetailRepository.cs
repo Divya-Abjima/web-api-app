@@ -12,16 +12,21 @@ namespace WebApiAppdemo.Services
         {
             _context = dinosaurDetailContext ?? throw new ArgumentNullException(nameof(dinosaurDetailContext));
         }
-        public Task<IEnumerable<Ages>> GetAgesAsync(int dinosaurId)
+        public async Task<IEnumerable<Dinosaur>> GetAgesAsync(int dinosaurId)
         {
-            throw new NotImplementedException();
+            return await _context.Dinosaurs.Include(d=>d.Age).ToListAsync();
         }
 
-        public Task<Ages> GetDinosaurAgeAsync(int dinosaurId, int ageId)
+        public async Task<Ages> GetDinosaurAgeAsync(int dinosaurId, int ageId)
         {
-            throw new NotImplementedException();
+            return await _context.Age.Where(c => (c.DinosaurId == dinosaurId && c.AgeId == ageId)).FirstOrDefaultAsync();
         }
 
+        public async Task<bool> DinosaurExistsAsync(int dinosaurId)
+        {
+            return await _context.Dinosaurs.AnyAsync(d=> d.Id==dinosaurId);
+        }
+         
         public async Task<Dinosaur?> GetDinosaurAsync(int dinosaurId, bool hasAges)
         {
            if(hasAges)
@@ -36,6 +41,19 @@ namespace WebApiAppdemo.Services
         public async Task<IEnumerable<Dinosaur>> GetDinosaursAsync()
         {
             return await _context.Dinosaurs.ToListAsync();
+        }
+        public async Task AddDinosaurAsync(int Id, Dinosaur entry)
+        {
+            var dinosaur = await GetDinosaurAsync(Id, true);
+            if(dinosaur!=null)
+            {
+              await _context.Dinosaurs.AddAsync(dinosaur);
+               
+            }
+        }
+        public async Task<bool> SaveChangesAsync()
+         {
+            return (await _context.SaveChangesAsync()>=0);
         }
     }
 }
